@@ -1,6 +1,31 @@
 import streamlit as st
 import streamlit.components.v1 as components
+from st_screen_stats import ScreenData
 
+if 'screen_width' not in st.session_state:
+    st.session_state['screen_width'] = None
+    
+def get_screen_size():
+    screenD = ScreenData()
+    return screenD
+        
+screenD = get_screen_size() 
+
+if screenD != None:
+    screen_d = screenD.st_screen_data_window_top()
+    st.session_state['screen_width'] = screen_d['innerWidth'] 
+             
+if st.session_state['screen_width'] != None:
+    if st.session_state['screen_width'] < 400:
+        st.session_state['phone'] = True
+        st.session_state['font'] = 'h6'
+    else:
+        st.session_state['phone'] = False
+        st.session_state['font'] = 'h5'
+else:
+    st.session_state['phone'] = False
+    st.session_state['font'] = 'h5'
+    
 def set_styles():
     st.write("""
         <style>
